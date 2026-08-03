@@ -1,6 +1,13 @@
 import { create } from "zustand";
+import { clientConfig } from "../config/client.config";
 
 export type Theme = "light" | "dark";
+
+export const PLANT_OPTIONS = [
+  "Plant 4 – Precision Machining",
+  "Plant 2 – Sheet Metal",
+  "Plant 7 – Assembly",
+];
 
 interface UiState {
   theme: Theme;
@@ -9,6 +16,10 @@ interface UiState {
   setSelectedMachineId: (id: string | null) => void;
   copilotCollapsed: boolean;
   setCopilotCollapsed: (collapsed: boolean) => void;
+  sidebarCollapsed: boolean;
+  setSidebarCollapsed: (collapsed: boolean) => void;
+  selectedPlant: string;
+  setSelectedPlant: (plant: string) => void;
 }
 
 function applyThemeToDocument(theme: Theme) {
@@ -33,4 +44,8 @@ export const useUiStore = create<UiState>((set, get) => ({
   setSelectedMachineId: (id) => set({ selectedMachineId: id }),
   copilotCollapsed: false,
   setCopilotCollapsed: (collapsed) => set({ copilotCollapsed: collapsed }),
+  sidebarCollapsed: false,
+  setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),
+  selectedPlant: clientConfig.plantName,
+  setSelectedPlant: (plant) => set({ selectedPlant: plant }),
 }));

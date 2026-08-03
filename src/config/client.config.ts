@@ -13,12 +13,12 @@ export interface ClientConfig {
 }
 
 export const clientConfig: ClientConfig = {
-  companyName: "Saxon.AI",
+  companyName: "Saxon AI",
   productName: "Machine Health Copilot",
   plantName: "Plant 4 – Precision Machining",
   logoInitials: "SX",
   supportEmail: "support@saxon.ai",
-  footerBranding: "Saxon.AI Machine Health Copilot · Pilot Build",
+  footerBranding: "Saxon AI Machine Health Copilot · Pilot Build",
   copilotDisclaimer:
     "Copilot responses are based on classifier output. Not a substitute for engineering judgment.",
 };
