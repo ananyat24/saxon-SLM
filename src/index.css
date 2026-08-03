@@ -28,65 +28,66 @@
 }
 
 :root {
-  /* Status semantics stay fixed regardless of theme/brand — safety-critical legibility. */
-  --status-critical: #dc2626;
-  --status-high: #ea580c;
-  --status-elevated: #d29a1f;
-  --status-normal: #17966f;
-  --status-uncertain: #6b7280;
+  /* Status semantics stay fixed regardless of theme/brand — safety-critical legibility.
+     Softened from fully-saturated alarm colors to muted, readable tones. */
+  --status-critical: #b3463b;
+  --status-high: #b8703a;
+  --status-elevated: #a9863c;
+  --status-normal: #3f8067;
+  --status-uncertain: #767f88;
 
-  /* "HMI signal teal" — a control-room accent instead of default SaaS blue/purple. */
-  --accent: #0891a8;
-  --accent-strong: #06697a;
-  --accent-soft: #e3f4f6;
+  /* Muted slate-teal accent — restrained control-room cue, not a loud SaaS brand color. */
+  --accent: #3d7480;
+  --accent-strong: #2c5860;
+  --accent-soft: #e8f0f1;
 
   --surface: #ffffff;
-  --surface-alt: #f5f7f8;
-  --surface-sunken: #edf1f2;
-  --border-subtle: #dde4e6;
-  --text-primary: #10201f;
-  --text-secondary: #47605f;
-  --text-muted: #8a9d9c;
+  --surface-alt: #f6f3ec;
+  --surface-sunken: #efebe0;
+  --border-subtle: #e2ddd0;
+  --text-primary: #29281f;
+  --text-secondary: #63604f;
+  --text-muted: #94907c;
 
-  --sidebar-bg: #071a1c;
-  --sidebar-hover: #0e2c2e;
-  --sidebar-active: #123c3f;
-  --sidebar-text: #e7f3f2;
-  --sidebar-text-muted: #6f9694;
+  --sidebar-bg: #2a2c28;
+  --sidebar-hover: #35372f;
+  --sidebar-active: #3d4137;
+  --sidebar-text: #f1efe7;
+  --sidebar-text-muted: #a3a290;
 
   color-scheme: light;
 }
 
 :root[data-theme="dark"] {
-  --surface: #0b1716;
-  --surface-alt: #0f1e1d;
-  --surface-sunken: #0a1615;
-  --border-subtle: #1f3433;
-  --text-primary: #eaf3f2;
-  --text-secondary: #a9c2c0;
-  --text-muted: #5e7d7b;
-  --accent-soft: #123638;
+  --surface: #17181a;
+  --surface-alt: #1b1c1e;
+  --surface-sunken: #131415;
+  --border-subtle: #2c2d2e;
+  --text-primary: #ece9e1;
+  --text-secondary: #b3b0a4;
+  --text-muted: #75736a;
+  --accent-soft: #1f2c2d;
 
-  --sidebar-bg: #040f10;
-  --sidebar-hover: #0a1e1f;
-  --sidebar-active: #0f2b2c;
+  --sidebar-bg: #131413;
+  --sidebar-hover: #1c1d1a;
+  --sidebar-active: #24261f;
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --surface: #0b1716;
-    --surface-alt: #0f1e1d;
-    --surface-sunken: #0a1615;
-    --border-subtle: #1f3433;
-    --text-primary: #eaf3f2;
-    --text-secondary: #a9c2c0;
-    --text-muted: #5e7d7b;
-    --accent-soft: #123638;
+    --surface: #17181a;
+    --surface-alt: #1b1c1e;
+    --surface-sunken: #131415;
+    --border-subtle: #2c2d2e;
+    --text-primary: #ece9e1;
+    --text-secondary: #b3b0a4;
+    --text-muted: #75736a;
+    --accent-soft: #1f2c2d;
 
-    --sidebar-bg: #040f10;
-    --sidebar-hover: #0a1e1f;
-    --sidebar-active: #0f2b2c;
+    --sidebar-bg: #131413;
+    --sidebar-hover: #1c1d1a;
+    --sidebar-active: #24261f;
     color-scheme: dark;
   }
 }
@@ -116,20 +117,6 @@ body {
   letter-spacing: 0;
 }
 
-/* Faint blueprint/schematic grid — atmosphere for the control-room aesthetic. */
-.bp-grid {
-  background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
-
-.bp-glow {
-  background:
-    radial-gradient(560px 320px at 88% -8%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
-    radial-gradient(420px 260px at -6% 10%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 70%);
-}
-
 .scrollbar-thin::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -139,23 +126,3 @@ body {
   border-radius: 4px;
 }
 
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.rise-in {
-  animation: rise-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .rise-in {
-    animation: none;
-  }
-}

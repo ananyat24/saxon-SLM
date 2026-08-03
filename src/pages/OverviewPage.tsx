@@ -37,7 +37,7 @@ export function OverviewPage() {
 
   return (
     <div className="space-y-5 max-w-[1500px]">
-      <div className="rise-in">
+      <div>
         <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Fleet Overview</h1>
         <p className="text-sm text-text-muted">Real-time classifier output across all monitored machines.</p>
       </div>
@@ -46,35 +46,33 @@ export function OverviewPage() {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
         <div className="xl:col-span-2 space-y-5">
-          <Card title="Machine Attention Queue" delayMs={80}>
+          <Card title="Machine Attention Queue">
             <AttentionQueue queue={queue} onSelect={handleSelect} />
           </Card>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <Card title="Risk Trend (7 Days)" delayMs={140}>
+            <Card title="Risk Trend (7 Days)">
               <RiskTrendChart data={summary.risk_trend} />
             </Card>
-            <Card title="Risk by Line" delayMs={160}>
+            <Card title="Risk by Line">
               <RiskByLineChart data={summary.risk_by_line} />
             </Card>
           </div>
         </div>
 
         <div className="space-y-5">
-          <Card title="Risk Distribution" delayMs={100}>
+          <Card title="Risk Distribution">
             <RiskDonut data={summary.risk_distribution} />
           </Card>
-          <Card title="Top Failure Conditions" delayMs={180}>
+          <Card title="Top Failure Conditions">
             <TopFailureBars data={summary.top_failure_conditions} />
           </Card>
-          <Card title="Model Confidence Overview" delayMs={220}>
+          <Card title="Model Confidence Overview">
             <ModelConfidenceDonut data={summary.model_confidence} />
           </Card>
         </div>
       </div>
 
-      <div className="rise-in" style={{ animationDelay: "260ms" }}>
-        <StatusStrip status={status} />
-      </div>
+      <StatusStrip status={status} />
     </div>
   );
 }

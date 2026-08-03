@@ -3,19 +3,14 @@ export function Card({
   action,
   children,
   className = "",
-  delayMs = 0,
 }: {
   title?: string;
   action?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
-  delayMs?: number;
 }) {
   return (
-    <div
-      className={`rise-in bg-surface border border-border-subtle rounded-xl shadow-sm ${className}`}
-      style={{ animationDelay: `${delayMs}ms` }}
-    >
+    <div className={`bg-surface border border-border-subtle rounded-lg ${className}`}>
       {title && (
         <div className="flex items-center justify-between px-5 pt-4 pb-2">
           <h3 className="text-sm font-semibold text-text-primary">{title}</h3>
