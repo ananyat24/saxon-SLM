@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --color-status-critical: var(--status-critical);
+  --color-status-high: var(--status-high);
+  --color-status-elevated: var(--status-elevated);
+  --color-status-normal: var(--status-normal);
+  --color-status-uncertain: var(--status-uncertain);
+
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-border-subtle: var(--border-subtle);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-sidebar: var(--sidebar-bg);
+  --color-sidebar-hover: var(--sidebar-hover);
+  --color-sidebar-active: var(--sidebar-active);
+  --color-sidebar-text: var(--sidebar-text);
+  --color-sidebar-text-muted: var(--sidebar-text-muted);
+}
+
+:root {
+  /* Status semantics stay fixed regardless of theme/brand — safety-critical legibility. */
+  --status-critical: #dc2626;
+  --status-high: #ea580c;
+  --status-elevated: #d29a1f;
+  --status-normal: #17966f;
+  --status-uncertain: #6b7280;
+
+  /* "HMI signal teal" — a control-room accent instead of default SaaS blue/purple. */
+  --accent: #0891a8;
+  --accent-strong: #06697a;
+  --accent-soft: #e3f4f6;
+
+  --surface: #ffffff;
+  --surface-alt: #f5f7f8;
+  --surface-sunken: #edf1f2;
+  --border-subtle: #dde4e6;
+  --text-primary: #10201f;
+  --text-secondary: #47605f;
+  --text-muted: #8a9d9c;
+
+  --sidebar-bg: #071a1c;
+  --sidebar-hover: #0e2c2e;
+  --sidebar-active: #123c3f;
+  --sidebar-text: #e7f3f2;
+  --sidebar-text-muted: #6f9694;
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --surface: #0b1716;
+  --surface-alt: #0f1e1d;
+  --surface-sunken: #0a1615;
+  --border-subtle: #1f3433;
+  --text-primary: #eaf3f2;
+  --text-secondary: #a9c2c0;
+  --text-muted: #5e7d7b;
+  --accent-soft: #123638;
+
+  --sidebar-bg: #040f10;
+  --sidebar-hover: #0a1e1f;
+  --sidebar-active: #0f2b2c;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --surface: #0b1716;
+    --surface-alt: #0f1e1d;
+    --surface-sunken: #0a1615;
+    --border-subtle: #1f3433;
+    --text-primary: #eaf3f2;
+    --text-secondary: #a9c2c0;
+    --text-muted: #5e7d7b;
+    --accent-soft: #123638;
+
+    --sidebar-bg: #040f10;
+    --sidebar-hover: #0a1e1f;
+    --sidebar-active: #0f2b2c;
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--surface-alt);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+}
+
+.font-mono-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+/* Faint blueprint/schematic grid — atmosphere for the control-room aesthetic. */
+.bp-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.bp-glow {
+  background:
+    radial-gradient(560px 320px at 88% -8%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
+    radial-gradient(420px 260px at -6% 10%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 70%);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 4px;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise-in {
+  animation: rise-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise-in {
+    animation: none;
+  }
+}
