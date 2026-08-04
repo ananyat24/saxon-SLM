@@ -28,14 +28,15 @@ export function Sidebar() {
       }`}
     >
       <div className={`flex items-center gap-2.5 px-5 py-5 ${collapsed ? "px-0 justify-center" : ""}`}>
-        <div className="w-8 h-8 rounded-lg bg-accent text-white flex items-center justify-center font-semibold text-xs font-mono-tabular shrink-0">
-          {clientConfig.logoInitials}
+        <div className={`bg-white rounded-md shrink-0 flex items-center justify-center ${collapsed ? "p-1.5" : "px-2 py-1.5"}`}>
+          <img
+            src="/saxon-logo.webp"
+            alt="Saxon AI"
+            className={collapsed ? "h-4 w-auto" : "h-5 w-auto"}
+          />
         </div>
         {!collapsed && (
-          <div className="leading-tight">
-            <p className="text-sm font-semibold text-white">{clientConfig.companyName}</p>
-            <p className="text-[11px] text-sidebar-text-muted">{clientConfig.productName}</p>
-          </div>
+          <p className="text-[11px] text-sidebar-text-muted leading-tight">{clientConfig.productName}</p>
         )}
       </div>
 

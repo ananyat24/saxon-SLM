@@ -36,22 +36,24 @@
   --status-normal: #3f8067;
   --status-uncertain: #767f88;
 
-  /* Saxon AI brand: signal orange accent against navy, matching saxon.ai. */
+  /* Saxon AI brand kit, read directly off saxon.ai's Elementor globals:
+     --e-global-color-primary #1C3459 (navy), --e-global-color-accent #EA761A (orange),
+     --e-global-color-text #383838, background near-white #FDFCFC. */
   --accent: #ea761a;
   --accent-strong: #c95f10;
-  --accent-soft: #fdf0e4;
+  --accent-soft: #fce3cc;
 
-  --surface: #ffffff;
-  --surface-alt: #f7f8fa;
-  --surface-sunken: #eef1f5;
-  --border-subtle: #e0e4ea;
+  --surface: #fffdf9;
+  --surface-alt: #faf5ea;
+  --surface-sunken: #f2ead9;
+  --border-subtle: #e6dcc4;
   --text-primary: #1c3459;
   --text-secondary: #383838;
-  --text-muted: #6b7883;
+  --text-muted: #7c7562;
 
   --sidebar-bg: #1c3459;
   --sidebar-hover: #24406b;
-  --sidebar-active: #2c4c7c;
+  --sidebar-active: #ea761a;
   --sidebar-text: #f3f6fa;
   --sidebar-text-muted: #9fb0c4;
 
@@ -70,7 +72,7 @@
 
   --sidebar-bg: #0e1a2c;
   --sidebar-hover: #17273f;
-  --sidebar-active: #1e3150;
+  --sidebar-active: #ea761a;
   color-scheme: dark;
 }
 
@@ -87,7 +89,7 @@
 
     --sidebar-bg: #0e1a2c;
     --sidebar-hover: #17273f;
-    --sidebar-active: #1e3150;
+    --sidebar-active: #ea761a;
     color-scheme: dark;
   }
 }
