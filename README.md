@@ -45,6 +45,12 @@ API clients implement the same `ApiClient` interface (`src/api/client.ts`):
 - `postCopilotMessage(req)`
 - `getSystemStatus()`
 - `runWhatIf(req)`
+- `getAlerts()`
+- `acknowledgeAlert(id)`
+- `getModelConfidenceTrend()`
+- `getReports()`
+- `getWorkOrders()`
+- `createWorkOrder(input)`
 
 A real backend should implement matching REST endpoints (see `httpApiClient.ts` for the exact paths)
 returning JSON that satisfies these types.

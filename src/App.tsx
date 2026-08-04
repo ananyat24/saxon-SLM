@@ -4,21 +4,17 @@ import { SignInGate } from "./components/common/SignInGate";
 import { AppShell } from "./components/layout/AppShell";
 import { OverviewPage } from "./pages/OverviewPage";
 import { CopilotPage } from "./pages/CopilotPage";
-import { ComingSoon } from "./pages/ComingSoon";
+import { MachinesPage } from "./pages/MachinesPage";
+import { WhatIfPage } from "./pages/WhatIfPage";
+import { AlertsPage } from "./pages/AlertsPage";
+import { ModelConfidencePage } from "./pages/ModelConfidencePage";
+import { ReportsPage } from "./pages/ReportsPage";
+import { WorkOrdersPage } from "./pages/WorkOrdersPage";
+import { AdministrationPage } from "./pages/AdministrationPage";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } },
 });
-
-const STUB_ROUTES: { path: string; title: string }[] = [
-  { path: "/machines", title: "Machines" },
-  { path: "/what-if", title: "What-If Simulator" },
-  { path: "/alerts", title: "Alerts" },
-  { path: "/model-confidence", title: "Model Confidence" },
-  { path: "/reports", title: "Reports" },
-  { path: "/work-orders", title: "Work Orders" },
-  { path: "/administration", title: "Administration" },
-];
 
 function App() {
   return (
@@ -30,9 +26,13 @@ function App() {
               <Route index element={<Navigate to="/overview" replace />} />
               <Route path="/overview" element={<OverviewPage />} />
               <Route path="/copilot" element={<CopilotPage />} />
-              {STUB_ROUTES.map((r) => (
-                <Route key={r.path} path={r.path} element={<ComingSoon title={r.title} />} />
-              ))}
+              <Route path="/machines" element={<MachinesPage />} />
+              <Route path="/what-if" element={<WhatIfPage />} />
+              <Route path="/alerts" element={<AlertsPage />} />
+              <Route path="/model-confidence" element={<ModelConfidencePage />} />
+              <Route path="/reports" element={<ReportsPage />} />
+              <Route path="/work-orders" element={<WorkOrdersPage />} />
+              <Route path="/administration" element={<AdministrationPage />} />
               <Route path="*" element={<Navigate to="/overview" replace />} />
             </Route>
           </Routes>

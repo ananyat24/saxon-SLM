@@ -13,12 +13,9 @@ export function SignInGate({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-surface-alt px-4">
       <div className="w-full max-w-sm bg-surface border border-border-subtle rounded-lg p-8">
-        <div className="flex items-center gap-2 mb-6">
-          <div className="w-9 h-9 rounded-lg bg-accent text-white flex items-center justify-center font-semibold text-sm">
-            {clientConfig.logoInitials}
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-text-primary leading-tight">{clientConfig.companyName}</p>
+        <div className="flex items-center gap-2.5 mb-6">
+          <img src="/saxon-logo.webp" alt={clientConfig.companyName} className="h-7 w-auto" />
+          <div className="border-l border-border-subtle pl-2.5">
             <p className="text-xs text-text-muted leading-tight">{clientConfig.productName}</p>
           </div>
         </div>

@@ -1,13 +1,18 @@
 import type { ApiClient } from "./client";
 import type {
+  Alert,
   CopilotRequest,
   CopilotResponse,
+  CreateWorkOrderInput,
   MachineDetail,
   MachineSummary,
+  ModelConfidenceTrendPoint,
   OverviewSummary,
+  Report,
   SystemStatus,
   WhatIfRequest,
   WhatIfResult,
+  WorkOrder,
 } from "../types/contract";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
@@ -34,4 +39,12 @@ export const httpApiClient: ApiClient = {
   getSystemStatus: () => request<SystemStatus>("/system/status"),
   runWhatIf: (req: WhatIfRequest) =>
     request<WhatIfResult>("/what-if", { method: "POST", body: JSON.stringify(req) }),
+  getAlerts: () => request<Alert[]>("/alerts"),
+  acknowledgeAlert: (id: string) =>
+    request<void>(`/alerts/${encodeURIComponent(id)}/acknowledge`, { method: "POST" }),
+  getModelConfidenceTrend: () => request<ModelConfidenceTrendPoint[]>("/model-confidence/trend"),
+  getReports: () => request<Report[]>("/reports"),
+  getWorkOrders: () => request<WorkOrder[]>("/work-orders"),
+  createWorkOrder: (input: CreateWorkOrderInput) =>
+    request<WorkOrder>("/work-orders", { method: "POST", body: JSON.stringify(input) }),
 };

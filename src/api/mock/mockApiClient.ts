@@ -1,10 +1,15 @@
 import type { ApiClient } from "../client";
 import type {
+  Alert,
   ClassifierOutput,
   CopilotRequest,
   CopilotResponse,
+  CreateWorkOrderInput,
+  ModelConfidenceTrendPoint,
+  Report,
   WhatIfRequest,
   WhatIfResult,
+  WorkOrder,
 } from "../../types/contract";
 import {
   buildOverviewSummary,
@@ -13,7 +18,18 @@ import {
   sortedQueue,
   systemStatusFixture,
 } from "./fixtures";
+import {
+  alertsFixture,
+  modelConfidenceTrendFixture,
+  reportsFixture,
+  workOrdersFixture,
+} from "./fixtures.extra";
 import { sensorFieldMeta, failureTaxonomy } from "../../config/taxonomy.config";
+
+// Mutable in-memory copies so acknowledge/create mutations persist for the session
+// (mirrors how a real backend would hold state; resets on page reload).
+const alertsState: Alert[] = alertsFixture.map((a) => ({ ...a }));
+const workOrdersState: WorkOrder[] = workOrdersFixture.map((w) => ({ ...w }));
 
 function delay<T>(value: T, ms = 350): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(value), ms));
@@ -137,5 +153,37 @@ export const mockApiClient: ApiClient = {
       simulated,
       delta_summary: "Simulated locally against the last known classifier output; connect the live API for a real re-score.",
     });
+  },
+
+  async getAlerts() {
+    return delay(alertsState.slice());
+  },
+
+  async acknowledgeAlert(id: string) {
+    const alert = alertsState.find((a) => a.id === id);
+    if (alert) alert.acknowledged = true;
+    return delay(undefined);
+  },
+
+  async getModelConfidenceTrend(): Promise<ModelConfidenceTrendPoint[]> {
+    return delay(modelConfidenceTrendFixture);
+  },
+
+  async getReports(): Promise<Report[]> {
+    return delay(reportsFixture);
+  },
+
+  async getWorkOrders() {
+    return delay(workOrdersState.slice());
+  },
+
+  async createWorkOrder(input: CreateWorkOrderInput): Promise<WorkOrder> {
+    const workOrder: WorkOrder = {
+      id: `WO-${String(workOrdersState.length + 1).padStart(4, "0")}`,
+      created_at: new Date().toISOString(),
+      ...input,
+    };
+    workOrdersState.unshift(workOrder);
+    return delay(workOrder);
   },
 };

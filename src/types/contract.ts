@@ -93,3 +93,47 @@ export interface WhatIfResult {
 export interface MachineDetail extends MachineSummary {
   history: ClassifierOutput[];
 }
+
+export interface Alert {
+  id: string;
+  machine_id: string;
+  risk_band: RiskBand;
+  message: string;
+  created_at: string; // ISO 8601
+  acknowledged: boolean;
+  severity: "critical" | "warning" | "info";
+}
+
+export interface ModelConfidenceTrendPoint {
+  date: string; // ISO date
+  high: number;
+  medium: number;
+  low: number;
+  uncertain: number;
+}
+
+export interface Report {
+  id: string;
+  title: string;
+  period_start: string; // ISO date
+  period_end: string; // ISO date
+  generated_at: string; // ISO 8601
+  format: "pdf" | "csv";
+  summary: string;
+}
+
+export type WorkOrderStatus = "open" | "in_progress" | "completed" | "cancelled";
+export type WorkOrderPriority = "high" | "medium" | "low";
+
+export interface WorkOrder {
+  id: string;
+  machine_id: string;
+  title: string;
+  status: WorkOrderStatus;
+  priority: WorkOrderPriority;
+  created_at: string; // ISO 8601
+  assigned_to: string;
+  linked_classifier_output_ref?: string;
+}
+
+export type CreateWorkOrderInput = Omit<WorkOrder, "id" | "created_at">;
