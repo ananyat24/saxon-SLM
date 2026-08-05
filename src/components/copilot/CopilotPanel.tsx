@@ -3,6 +3,7 @@ import { useCopilotThread } from "../../hooks/useCopilotThread";
 import { useUiStore } from "../../store/uiStore";
 import { clientConfig } from "../../config/client.config";
 import { SafeMarkdown } from "./SafeMarkdown";
+import { DataSourceTag } from "../common/DataSourceTag";
 
 export function CopilotPanel({ fullPage = false }: { fullPage?: boolean }) {
   const selectedMachineId = useUiStore((s) => s.selectedMachineId);
@@ -23,7 +24,10 @@ export function CopilotPanel({ fullPage = false }: { fullPage?: boolean }) {
   return (
     <div className={`flex flex-col h-full bg-surface ${fullPage ? "" : "border-l border-border-subtle"}`}>
       <div className="px-4 py-3 border-b border-border-subtle">
-        <h2 className="text-sm font-semibold text-text-primary">Copilot</h2>
+        <div className="flex items-center gap-2">
+          <h2 className="text-sm font-semibold text-text-primary">Copilot</h2>
+          <DataSourceTag variant="capable" />
+        </div>
         <p className="text-xs text-text-muted">
           {selectedMachineId ? `Context: ${selectedMachineId}` : "Select a machine to start"}
         </p>

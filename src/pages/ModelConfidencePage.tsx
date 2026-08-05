@@ -4,6 +4,7 @@ import { Card } from "../components/common/Card";
 import { ModelConfidenceDonut } from "../components/overview/ModelConfidenceDonut";
 import { ConfidenceTrendChart } from "../components/modelconfidence/ConfidenceTrendChart";
 import { StatusStrip } from "../components/overview/StatusStrip";
+import { DataSourceTag } from "../components/common/DataSourceTag";
 
 export function ModelConfidencePage() {
   const summaryQuery = useQuery({ queryKey: ["overview-summary"], queryFn: apiClient.getOverviewSummary });
@@ -16,7 +17,10 @@ export function ModelConfidencePage() {
   return (
     <div className="space-y-5 max-w-[1500px]">
       <div>
-        <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Model Confidence</h1>
+        <div className="flex items-center gap-2.5">
+          <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Model Confidence</h1>
+          <DataSourceTag variant="coming-soon" />
+        </div>
         <p className="text-sm text-text-muted">
           Is the classifier trustworthy right now? Current confidence mix, drift over time, and data-quality signals.
         </p>

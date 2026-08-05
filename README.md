@@ -21,23 +21,54 @@ The app talks to a single `apiClient` (`src/api/index.ts`), which picks an imple
 
 - `mock` (default) — `src/api/mock/mockApiClient.ts` returns fixture data (`src/api/mock/fixtures.ts`)
   with artificial latency, so the UI is fully demoable with no backend.
-- `live` — `src/api/httpApiClient.ts` makes real `fetch` calls against `VITE_API_BASE_URL`.
+- `live` — `src/api/live/liveApiClient.ts` is a **hybrid** client. It routes machine assessment,
+  copilot Q&A, and what-if analysis to a real classifier backend (`saxon_machine_health_api` — a
+  separate FastAPI service running a CatBoost multi-label classifier + templated/SLM explainer, not
+  part of this repo). Everything else (`getOverviewSummary`, `getAlerts`, `getWorkOrders`, `getReports`,
+  `getModelConfidenceTrend`, `getSystemStatus`) has no real backend yet and stays on
+  `mockApiClient` — see `DataSourceTag` (`src/components/common/DataSourceTag.tsx`), which marks
+  every page as either "Live model", "Demo data (mock)", or "Demo data — live integration coming
+  soon" so it's never ambiguous which is which.
 
-Copy `.env.example` to `.env.local` and set:
+Copy `.env.example` to `.env` and set:
 
 ```
 VITE_API_MODE=live
-VITE_API_BASE_URL=https://your-backend-proxy.example.com
+VITE_API_BASE_URL=http://localhost:8000/api/v1
 ```
 
-No API keys live in the frontend. `httpApiClient` always calls a backend proxy that holds any
-credentials — never point `VITE_API_BASE_URL` at a service that expects a key from the browser.
+`VITE_API_BASE_URL` must point at the real backend's versioned API root (include the `/api/v1`
+prefix). No API keys live in the frontend — that backend doesn't require one for local/pilot use;
+if a future deployment adds auth, put it behind a proxy that holds the credential server-side.
+
+### How the live adapter works (`src/api/live/`)
+
+- `backendTypes.ts` — TypeScript mirrors of the backend's exact Pydantic request/response schemas.
+- `backendClient.ts` — thin `fetch` wrapper calling `/health`, `/assess`, `/explain`, `/what-if`.
+- `machineRoster.ts` — the backend has no concept of a "fleet"; it only scores whatever reading you
+  send it. Since there's no live plant sensor feed for this pilot, this file holds a small fixed
+  roster of machine IDs/locations paired with **real sensor readings sampled from the training
+  dataset** (`ai4i_augmented_classifier_dataset_v2.csv`), not synthetic values. The prediction shown
+  in the UI is always a live call to the real trained model — only the input readings are frozen
+  demo data pending a real sensor feed.
+- `mapAssessment.ts` — maps the backend's response shapes onto this app's UI contract
+  (`src/types/contract.ts`), e.g. `overall_risk_band: "critical"` → `risk_band: "CRITICAL"`. Every
+  value here originates from the real backend call; nothing is invented.
+- `liveApiClient.ts` — implements `ApiClient`, delegating the non-integrated methods straight through
+  to `mockApiClient` (re-exported, not reimplemented) so mock and live never silently diverge on
+  logic, only on which data source backs each method.
+
+`src/api/httpApiClient.ts` still exists as a plain 1:1 REST reference implementation matching the
+originally-documented contract — useful if a future unified backend implements all twelve
+`ApiClient` methods directly — but `index.ts` currently wires `live` mode to `liveApiClient.ts`, not
+this file.
 
 ## API contract
 
 The full typed contract (`ClassifierOutput`, `CopilotMessage`, `MachineSummary`, `OverviewSummary`,
-`SystemStatus`, `WhatIfRequest/Result`, etc.) lives in `src/types/contract.ts`. Both the mock and live
-API clients implement the same `ApiClient` interface (`src/api/client.ts`):
+`SystemStatus`, `WhatIfRequest/Result`, `Alert`, `WorkOrder`, `Report`, `ModelConfidenceTrendPoint`,
+etc.) lives in `src/types/contract.ts`. All API clients (`mockApiClient`, `liveApiClient`,
+`httpApiClient`) implement the same `ApiClient` interface (`src/api/client.ts`):
 
 - `getOverviewSummary()`
 - `getMachineQueue()`
@@ -51,9 +82,6 @@ API clients implement the same `ApiClient` interface (`src/api/client.ts`):
 - `getReports()`
 - `getWorkOrders()`
 - `createWorkOrder(input)`
-
-A real backend should implement matching REST endpoints (see `httpApiClient.ts` for the exact paths)
-returning JSON that satisfies these types.
 
 The frontend never constructs or sends fabricated classifier numbers — `CopilotRequest` only carries
 `machine_id` and `question`; the backend is responsible for embedding the current classifier output
@@ -73,10 +101,9 @@ Everything client-facing is centralized so a new deployment is a config change, 
 
 ## Pages
 
-`/overview` and `/copilot` are fully built against mock data for the v1 pilot demo. All other nav
-routes (`/machines`, `/live-assessment`, `/what-if`, `/alerts`, `/model-confidence`, `/reports`,
-`/work-orders`, `/administration`) are routed with a "coming soon" placeholder so the information
-architecture is complete end to end.
+All nav routes are fully built: `/overview`, `/machines`, `/what-if`, `/copilot`, `/alerts`,
+`/model-confidence`, `/reports`, `/work-orders`, `/administration`. Data source varies by page and by
+`VITE_API_MODE` — see the `DataSourceTag` next to each page title, or the mock ↔ live section above.
 
 ## Auth / RBAC
 

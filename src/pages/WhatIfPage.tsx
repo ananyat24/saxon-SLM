@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiClient } from "../api";
 import { Card } from "../components/common/Card";
 import { RiskBadge, ConfidenceIndicator } from "../components/common/StatusBadge";
+import { DataSourceTag } from "../components/common/DataSourceTag";
 import { sensorFieldMeta } from "../config/taxonomy.config";
 import type { ClassifierOutput } from "../types/contract";
 
@@ -68,7 +69,10 @@ export function WhatIfPage() {
   return (
     <div className="space-y-5 max-w-[1500px]">
       <div>
-        <h1 className="text-2xl font-semibold text-text-primary tracking-tight">What-If Simulator</h1>
+        <div className="flex items-center gap-2.5">
+          <h1 className="text-2xl font-semibold text-text-primary tracking-tight">What-If Simulator</h1>
+          <DataSourceTag variant="capable" />
+        </div>
         <p className="text-sm text-text-muted">
           Adjust sensor inputs for a machine and re-score against the classifier to see the projected impact.
         </p>

@@ -9,6 +9,7 @@ import { RiskByLineChart } from "../components/overview/RiskByLineChart";
 import { ModelConfidenceDonut } from "../components/overview/ModelConfidenceDonut";
 import { StatusStrip } from "../components/overview/StatusStrip";
 import { Card } from "../components/common/Card";
+import { DataSourceTag } from "../components/common/DataSourceTag";
 import { useUiStore } from "../store/uiStore";
 
 export function OverviewPage() {
@@ -38,7 +39,10 @@ export function OverviewPage() {
   return (
     <div className="space-y-5 max-w-[1500px]">
       <div>
-        <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Fleet Overview</h1>
+        <div className="flex items-center gap-2.5">
+          <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Fleet Overview</h1>
+          <DataSourceTag variant="coming-soon" />
+        </div>
         <p className="text-sm text-text-muted">Real-time classifier output across all monitored machines.</p>
       </div>
 
@@ -46,7 +50,7 @@ export function OverviewPage() {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
         <div className="xl:col-span-2 space-y-5">
-          <Card title="Machine Attention Queue">
+          <Card title="Machine Attention Queue" action={<DataSourceTag variant="capable" />}>
             <AttentionQueue queue={queue} onSelect={handleSelect} />
           </Card>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

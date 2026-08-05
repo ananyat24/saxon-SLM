@@ -5,6 +5,7 @@ import { Card } from "../components/common/Card";
 import { RiskBadge, ConfidenceIndicator, ConditionBadge, ActionButton } from "../components/common/StatusBadge";
 import { SensorSnapshot } from "../components/machines/SensorSnapshot";
 import { MachineHistoryTable } from "../components/machines/MachineHistoryTable";
+import { DataSourceTag } from "../components/common/DataSourceTag";
 import { useUiStore } from "../store/uiStore";
 
 export function MachinesPage() {
@@ -27,7 +28,10 @@ export function MachinesPage() {
   return (
     <div className="space-y-5 max-w-[1500px]">
       <div>
-        <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Machines</h1>
+        <div className="flex items-center gap-2.5">
+          <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Machines</h1>
+          <DataSourceTag variant="capable" />
+        </div>
         <p className="text-sm text-text-muted">Full monitored fleet with classifier output, sensor detail, and history.</p>
       </div>
 

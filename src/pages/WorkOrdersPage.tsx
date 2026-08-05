@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "../api";
 import { Card } from "../components/common/Card";
+import { DataSourceTag } from "../components/common/DataSourceTag";
 import { useHasPermission } from "../hooks/useHasPermission";
 import type { CreateWorkOrderInput, WorkOrder, WorkOrderPriority, WorkOrderStatus } from "../types/contract";
 
@@ -124,7 +125,10 @@ export function WorkOrdersPage() {
   return (
     <div className="space-y-5 max-w-[1400px]">
       <div>
-        <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Work Orders</h1>
+        <div className="flex items-center gap-2.5">
+          <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Work Orders</h1>
+          <DataSourceTag variant="coming-soon" />
+        </div>
         <p className="text-sm text-text-muted">Maintenance actions linked to classifier output, by machine.</p>
       </div>
 

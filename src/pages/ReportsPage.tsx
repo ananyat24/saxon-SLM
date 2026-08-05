@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../api";
 import { Card } from "../components/common/Card";
+import { DataSourceTag } from "../components/common/DataSourceTag";
 import { useHasPermission } from "../hooks/useHasPermission";
 
 export function ReportsPage() {
@@ -23,7 +24,10 @@ export function ReportsPage() {
   return (
     <div className="space-y-5 max-w-[1200px]">
       <div>
-        <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Reports</h1>
+        <div className="flex items-center gap-2.5">
+          <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Reports</h1>
+          <DataSourceTag variant="coming-soon" />
+        </div>
         <p className="text-sm text-text-muted">Generated fleet health and classifier performance reports.</p>
       </div>
 

@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "../api";
 import { Card } from "../components/common/Card";
 import { RiskBadge } from "../components/common/StatusBadge";
+import { DataSourceTag } from "../components/common/DataSourceTag";
 import type { Alert } from "../types/contract";
 
 const SEVERITY_META: Record<Alert["severity"], { label: string; colorVar: string }> = {
@@ -29,7 +30,10 @@ export function AlertsPage() {
   return (
     <div className="space-y-5 max-w-[1200px]">
       <div>
-        <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Alerts</h1>
+        <div className="flex items-center gap-2.5">
+          <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Alerts</h1>
+          <DataSourceTag variant="coming-soon" />
+        </div>
         <p className="text-sm text-text-muted">Classifier-driven alerts across the monitored fleet.</p>
       </div>
 
