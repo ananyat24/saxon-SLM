@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { to: "/what-if", label: "What-If" },
   { to: "/alerts", label: "Alerts" },
   { to: "/model-confidence", label: "Model Confidence" },
+  { to: "/training-data", label: "Training Data" },
   { to: "/reports", label: "Reports" },
   { to: "/work-orders", label: "Work Orders" },
   { to: "/administration", label: "Administration" },

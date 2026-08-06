@@ -41,7 +41,7 @@ export function OverviewPage() {
       <div>
         <div className="flex items-center gap-2.5">
           <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Fleet Overview</h1>
-          <DataSourceTag variant="coming-soon" />
+          <DataSourceTag variant="capable" />
         </div>
         <p className="text-sm text-text-muted">Real-time classifier output across all monitored machines.</p>
       </div>
@@ -50,11 +50,11 @@ export function OverviewPage() {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
         <div className="xl:col-span-2 space-y-5">
-          <Card title="Machine Attention Queue" action={<DataSourceTag variant="capable" />}>
+          <Card title="Machine Attention Queue">
             <AttentionQueue queue={queue} onSelect={handleSelect} />
           </Card>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <Card title="Risk Trend (7 Days)">
+            <Card title="Risk Trend (7 Days)" action={<DataSourceTag variant="coming-soon" />}>
               <RiskTrendChart data={summary.risk_trend} />
             </Card>
             <Card title="Risk by Line">

@@ -6,12 +6,14 @@
 // unchanged to mockApiClient rather than being faked as if it were live —
 // see DataSourceTag in the UI for what's marked accordingly.
 import type { ApiClient } from "../client";
-import type { CopilotRequest, CopilotResponse, MachineDetail, MachineSummary, WhatIfRequest, WhatIfResult } from "../../types/contract";
+import type { Alert, CopilotRequest, CopilotResponse, MachineDetail, MachineSummary, OverviewSummary, SystemStatus, WhatIfRequest, WhatIfResult } from "../../types/contract";
 import { mockApiClient } from "../mock/mockApiClient";
+import { buildOverviewSummary as buildMockOverviewSummary } from "../mock/fixtures";
 import { backendClient } from "./backendClient";
 import { assessmentToClassifierOutput, assessmentToMachineSummary } from "./mapAssessment";
+import { buildLiveAlerts, buildLiveOverviewSummary, buildLiveSystemStatus } from "./liveDerived";
 import { findRosterEntry, machineRoster } from "./machineRoster";
-import type { MachineReading } from "./backendTypes";
+import type { DatasetInfoResponse, HealthResponse, MachineReading } from "./backendTypes";
 
 function requireRosterEntry(machineId: string) {
   const entry = findRosterEntry(machineId);
@@ -27,11 +29,41 @@ async function fetchMachineSummary(machineId: string): Promise<MachineSummary> {
 
 const riskRank: Record<string, number> = { CRITICAL: 0, HIGH: 1, ELEVATED: 2, NORMAL: 3, UNCERTAIN: 4 };
 
+// Short-lived cache so Overview/Alerts/System Status/Machine Queue — which
+// all fire near-simultaneously on page load — share one round of real
+// /assess calls instead of each independently re-scoring all 8 machines.
+const CACHE_MS = 8000;
+let summariesCache: { promise: Promise<MachineSummary[]>; ts: number } | null = null;
+
+function getAllMachineSummaries(): Promise<MachineSummary[]> {
+  const now = Date.now();
+  if (!summariesCache || now - summariesCache.ts > CACHE_MS) {
+    summariesCache = {
+      promise: Promise.all(machineRoster.map((entry) => fetchMachineSummary(entry.machine_id))),
+      ts: now,
+    };
+  }
+  return summariesCache.promise;
+}
+
+let metaCache: { promise: Promise<[HealthResponse, DatasetInfoResponse]>; ts: number } | null = null;
+function getBackendMeta(): Promise<[HealthResponse, DatasetInfoResponse]> {
+  const now = Date.now();
+  if (!metaCache || now - metaCache.ts > CACHE_MS) {
+    metaCache = { promise: Promise.all([backendClient.health(), backendClient.datasetInfo()]), ts: now };
+  }
+  return metaCache.promise;
+}
+
+// Session-local acknowledge state — the real backend has no alert store, so
+// "acknowledged" only persists for this browser session, not across reloads.
+const acknowledgedLiveAlertIds = new Set<string>();
+
 export const liveApiClient: ApiClient = {
   // --- Real backend calls ---
   async getMachineQueue() {
-    const summaries = await Promise.all(machineRoster.map((entry) => fetchMachineSummary(entry.machine_id)));
-    return summaries.sort((a, b) => riskRank[a.classifier_output.risk_band] - riskRank[b.classifier_output.risk_band]);
+    const summaries = await getAllMachineSummaries();
+    return [...summaries].sort((a, b) => riskRank[a.classifier_output.risk_band] - riskRank[b.classifier_output.risk_band]);
   },
 
   async getMachineDetail(machineId: string): Promise<MachineDetail> {
@@ -87,11 +119,32 @@ export const liveApiClient: ApiClient = {
     };
   },
 
-  // --- No real backend endpoint yet — unchanged mock, not faked as live ---
-  getOverviewSummary: mockApiClient.getOverviewSummary,
-  getSystemStatus: mockApiClient.getSystemStatus,
-  getAlerts: mockApiClient.getAlerts,
-  acknowledgeAlert: mockApiClient.acknowledgeAlert,
+  // --- Derived live from real per-machine assessments (current-state only —
+  // see liveDerived.ts for what genuinely can't be derived without history) ---
+  async getOverviewSummary(): Promise<OverviewSummary> {
+    const summaries = await getAllMachineSummaries();
+    // Only risk_trend is pulled from here — it needs multi-day history we
+    // don't have; everything else uses the real summaries above.
+    const { risk_trend } = buildMockOverviewSummary();
+    return buildLiveOverviewSummary(summaries, risk_trend);
+  },
+
+  async getSystemStatus(): Promise<SystemStatus> {
+    const [summaries, [health, datasetInfo]] = await Promise.all([getAllMachineSummaries(), getBackendMeta()]);
+    return buildLiveSystemStatus(summaries, health.classifier_version, health.slm_version, datasetInfo.bundle_trained_at);
+  },
+
+  async getAlerts(): Promise<Alert[]> {
+    const summaries = await getAllMachineSummaries();
+    return buildLiveAlerts(summaries).map((a) => ({ ...a, acknowledged: acknowledgedLiveAlertIds.has(a.id) }));
+  },
+
+  async acknowledgeAlert(id: string) {
+    acknowledgedLiveAlertIds.add(id);
+  },
+
+  // --- No real backend support (no persisted history / report / work-order
+  // store exists server-side) — unchanged mock, not faked as live ---
   getModelConfidenceTrend: mockApiClient.getModelConfidenceTrend,
   getReports: mockApiClient.getReports,
   getWorkOrders: mockApiClient.getWorkOrders,

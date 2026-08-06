@@ -11,6 +11,7 @@ import { ModelConfidencePage } from "./pages/ModelConfidencePage";
 import { ReportsPage } from "./pages/ReportsPage";
 import { WorkOrdersPage } from "./pages/WorkOrdersPage";
 import { AdministrationPage } from "./pages/AdministrationPage";
+import { TrainingDataPage } from "./pages/TrainingDataPage";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } },
@@ -30,6 +31,7 @@ function App() {
               <Route path="/what-if" element={<WhatIfPage />} />
               <Route path="/alerts" element={<AlertsPage />} />
               <Route path="/model-confidence" element={<ModelConfidencePage />} />
+              <Route path="/training-data" element={<TrainingDataPage />} />
               <Route path="/reports" element={<ReportsPage />} />
               <Route path="/work-orders" element={<WorkOrdersPage />} />
               <Route path="/administration" element={<AdministrationPage />} />

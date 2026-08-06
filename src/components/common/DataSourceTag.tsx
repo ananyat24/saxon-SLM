@@ -12,21 +12,21 @@ import { isLiveApiMode } from "../../api";
 export function DataSourceTag({ variant }: { variant: "capable" | "coming-soon" }) {
   if (variant === "capable" && isLiveApiMode) {
     return (
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-status-normal/10 px-2.5 py-1 text-[11px] font-medium text-status-normal">
-        <span className="w-1.5 h-1.5 rounded-full bg-status-normal" />
+      <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-status-normal/10 px-2.5 py-1 text-[11px] font-medium text-status-normal whitespace-nowrap">
+        <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-status-normal" />
         Live model
       </span>
     );
   }
   if (variant === "capable") {
     return (
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-sunken border border-border-subtle px-2.5 py-1 text-[11px] font-medium text-text-muted">
+      <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-surface-sunken border border-border-subtle px-2.5 py-1 text-[11px] font-medium text-text-muted whitespace-nowrap">
         Demo data (mock)
       </span>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-sunken border border-border-subtle px-2.5 py-1 text-[11px] font-medium text-text-muted">
+    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-surface-sunken border border-border-subtle px-2.5 py-1 text-[11px] font-medium text-text-muted whitespace-nowrap">
       Demo data — live integration coming soon
     </span>
   );

@@ -19,7 +19,7 @@ export function ModelConfidencePage() {
       <div>
         <div className="flex items-center gap-2.5">
           <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Model Confidence</h1>
-          <DataSourceTag variant="coming-soon" />
+          <DataSourceTag variant="capable" />
         </div>
         <p className="text-sm text-text-muted">
           Is the classifier trustworthy right now? Current confidence mix, drift over time, and data-quality signals.
@@ -33,7 +33,7 @@ export function ModelConfidencePage() {
         <>
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
             <div className="xl:col-span-2">
-              <Card title="Confidence Trend (18 Days)">
+              <Card title="Confidence Trend (18 Days)" action={<DataSourceTag variant="coming-soon" />}>
                 <ConfidenceTrendChart data={trendQuery.data} />
               </Card>
             </div>

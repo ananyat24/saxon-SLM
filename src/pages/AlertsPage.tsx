@@ -32,7 +32,7 @@ export function AlertsPage() {
       <div>
         <div className="flex items-center gap-2.5">
           <h1 className="text-2xl font-semibold text-text-primary tracking-tight">Alerts</h1>
-          <DataSourceTag variant="coming-soon" />
+          <DataSourceTag variant="capable" />
         </div>
         <p className="text-sm text-text-muted">Classifier-driven alerts across the monitored fleet.</p>
       </div>

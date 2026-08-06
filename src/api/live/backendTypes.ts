@@ -94,3 +94,27 @@ export interface HealthResponse {
   slm_version: string;
   api_version: string;
 }
+
+export interface ThresholdInfo {
+  threshold: number;
+  precision?: number | null;
+  recall?: number | null;
+  f_beta?: number | null;
+  beta?: number | null;
+}
+
+export interface DistributionRange {
+  low: number;
+  high: number;
+}
+
+export interface DatasetInfoResponse {
+  model_version: string;
+  bundle_trained_at?: string | null;
+  raw_input_features: string[];
+  model_features: string[];
+  failure_targets: string[];
+  thresholds: Record<string, ThresholdInfo>;
+  distribution_ranges: Record<string, DistributionRange>;
+  plausible_limits: Record<string, [number, number]>;
+}
