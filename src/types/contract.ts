@@ -24,12 +24,18 @@ export interface ClassifierOutput {
   classifier_version: string;
 }
 
+export type SlmVerification = "verified" | "mismatch" | "unavailable";
+
 export interface CopilotMessage {
   role: "user" | "assistant";
   content: string;
   machine_id?: string;
   classifier_output_ref?: string;
   timestamp: string;
+  /** Only meaningful for assistant messages when the live SLM is configured
+   * — see src/api/live/liveApiClient.ts. Undefined in mock mode or when no
+   * SLM is configured at all (nothing to verify). */
+  slm_verified?: SlmVerification;
 }
 
 export interface CopilotRequest {

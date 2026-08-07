@@ -4,6 +4,13 @@ import { useUiStore } from "../../store/uiStore";
 import { clientConfig } from "../../config/client.config";
 import { SafeMarkdown } from "./SafeMarkdown";
 import { DataSourceTag } from "../common/DataSourceTag";
+import type { SlmVerification } from "../../types/contract";
+
+const VERIFICATION_META: Record<SlmVerification, { label: string; className: string }> = {
+  verified: { label: "✓ SLM-verified", className: "text-status-normal" },
+  mismatch: { label: "⚠ SLM disagreed with classifier", className: "text-status-elevated" },
+  unavailable: { label: "SLM unavailable — showing classifier-only explanation", className: "text-text-muted" },
+};
 
 export function CopilotPanel({ fullPage = false }: { fullPage?: boolean }) {
   const selectedMachineId = useUiStore((s) => s.selectedMachineId);
@@ -49,6 +56,11 @@ export function CopilotPanel({ fullPage = false }: { fullPage?: boolean }) {
             }`}
           >
             {m.role === "assistant" ? <SafeMarkdown content={m.content} /> : <p className="text-sm">{m.content}</p>}
+            {m.role === "assistant" && m.slm_verified && (
+              <p className={`text-[10.5px] mt-1.5 pt-1.5 border-t border-border-subtle ${VERIFICATION_META[m.slm_verified].className}`}>
+                {VERIFICATION_META[m.slm_verified].label}
+              </p>
+            )}
           </div>
         ))}
         {isPending && <div className="text-xs text-text-muted">Copilot is thinking…</div>}

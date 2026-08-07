@@ -91,6 +91,7 @@ export const liveApiClient: ApiClient = {
         machine_id: req.machine_id,
         classifier_output_ref: explanation.assessment_id,
         timestamp: new Date().toISOString(),
+        slm_verified: explanation.slm_verified ?? undefined,
       },
       // Static suggested-question chips — UI affordance, not model output.
       suggested_questions: [

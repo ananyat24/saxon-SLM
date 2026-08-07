@@ -69,6 +69,7 @@ export interface ExplainResponse {
   limitations: Record<string, boolean>;
   classifier_version: string;
   slm_version: string;
+  slm_verified?: "verified" | "mismatch" | "unavailable" | null;
   schema_version: string;
 }
 
