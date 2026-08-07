@@ -4,6 +4,7 @@ import { apiClient } from "../api";
 import { Card } from "../components/common/Card";
 import { RiskBadge } from "../components/common/StatusBadge";
 import { DataSourceTag } from "../components/common/DataSourceTag";
+import { LoadingState } from "../components/common/LoadingState";
 import type { Alert } from "../types/contract";
 
 const SEVERITY_META: Record<Alert["severity"], { label: string; colorVar: string }> = {
@@ -55,7 +56,7 @@ export function AlertsPage() {
       </div>
 
       <Card>
-        {alertsQuery.isLoading && <p className="text-sm text-text-muted">Loading alerts…</p>}
+        {alertsQuery.isLoading && <LoadingState compact label="Fetching current alerts…" />}
         {alertsQuery.isError && <p className="text-sm text-status-critical">Failed to load alerts.</p>}
         {alertsQuery.data && alerts.length === 0 && (
           <p className="text-sm text-text-muted">No alerts match this filter.</p>

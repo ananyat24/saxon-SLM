@@ -5,6 +5,7 @@ import { ModelConfidenceDonut } from "../components/overview/ModelConfidenceDonu
 import { ConfidenceTrendChart } from "../components/modelconfidence/ConfidenceTrendChart";
 import { StatusStrip } from "../components/overview/StatusStrip";
 import { DataSourceTag } from "../components/common/DataSourceTag";
+import { LoadingState } from "../components/common/LoadingState";
 
 export function ModelConfidencePage() {
   const summaryQuery = useQuery({ queryKey: ["overview-summary"], queryFn: apiClient.getOverviewSummary });
@@ -26,7 +27,7 @@ export function ModelConfidencePage() {
         </p>
       </div>
 
-      {loading && <p className="text-sm text-text-muted">Loading model confidence data…</p>}
+      {loading && <LoadingState label="Fetching model confidence data…" />}
       {error && <p className="text-sm text-status-critical">Failed to load model confidence data.</p>}
 
       {summaryQuery.data && trendQuery.data && statusQuery.data && (

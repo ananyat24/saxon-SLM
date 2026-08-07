@@ -32,7 +32,7 @@ export function CopilotPanel({ fullPage = false }: { fullPage?: boolean }) {
     <div className={`flex flex-col h-full bg-surface ${fullPage ? "" : "border-l border-border-subtle"}`}>
       <div className="px-4 py-3 border-b border-border-subtle">
         <div className="flex items-center gap-2">
-          <h2 className="text-sm font-semibold text-text-primary">Copilot</h2>
+          <h2 className="text-sm font-semibold text-text-primary">Saxon Advisor</h2>
           <DataSourceTag variant="capable" />
         </div>
         <p className="text-xs text-text-muted">
@@ -63,7 +63,7 @@ export function CopilotPanel({ fullPage = false }: { fullPage?: boolean }) {
             )}
           </div>
         ))}
-        {isPending && <div className="text-xs text-text-muted">Copilot is thinking…</div>}
+        {isPending && <div className="text-xs text-text-muted">Saxon Advisor is thinking…</div>}
       </div>
 
       <div className="px-4 pb-2 flex flex-wrap gap-1.5">
@@ -85,7 +85,7 @@ export function CopilotPanel({ fullPage = false }: { fullPage?: boolean }) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={!selectedMachineId}
-          placeholder={selectedMachineId ? "Ask the copilot…" : "Select a machine first"}
+          placeholder={selectedMachineId ? "Ask Saxon Advisor…" : "Select a machine first"}
           className="flex-1 rounded-md border border-border-subtle bg-surface px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
         />
         <button

@@ -6,6 +6,7 @@ import { RiskBadge, ConfidenceIndicator, ConditionBadge, ActionButton } from "..
 import { SensorSnapshot } from "../components/machines/SensorSnapshot";
 import { MachineHistoryTable } from "../components/machines/MachineHistoryTable";
 import { DataSourceTag } from "../components/common/DataSourceTag";
+import { LoadingState } from "../components/common/LoadingState";
 import { useUiStore } from "../store/uiStore";
 
 export function MachinesPage() {
@@ -36,7 +37,7 @@ export function MachinesPage() {
       </div>
 
       <Card title="Fleet">
-        {queueQuery.isLoading && <p className="text-sm text-text-muted">Loading machines…</p>}
+        {queueQuery.isLoading && <LoadingState compact label="Scoring the fleet against the live model…" />}
         {queueQuery.isError && <p className="text-sm text-status-critical">Failed to load machine queue.</p>}
         {queueQuery.data && <AttentionQueue queue={queueQuery.data} onSelect={handleSelect} />}
       </Card>
@@ -54,7 +55,7 @@ export function MachinesPage() {
             </button>
           }
         >
-          {detailQuery.isLoading && <p className="text-sm text-text-muted">Loading detail…</p>}
+          {detailQuery.isLoading && <LoadingState compact label="Loading machine detail…" />}
           {detailQuery.isError && <p className="text-sm text-status-critical">Failed to load machine detail.</p>}
           {detailQuery.data && (
             <div className="space-y-5">

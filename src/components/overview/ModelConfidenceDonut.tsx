@@ -25,12 +25,12 @@ export function ModelConfidenceDonut({ data }: { data: OverviewSummary["model_co
       </div>
       <ul className="space-y-1 mt-1">
         {data.map((d) => (
-          <li key={d.band} className="flex items-center justify-between text-xs">
-            <span className="flex items-center gap-1.5 text-text-secondary">
-              <span className="w-2 h-2 rounded-full" style={{ background: colorFor(d.band) }} />
+          <li key={d.band} className="flex items-center justify-between gap-2 text-xs">
+            <span className="flex items-center gap-1.5 text-text-secondary min-w-0 truncate">
+              <span className="w-2 h-2 rounded-full shrink-0" style={{ background: colorFor(d.band) }} />
               {confidenceBandMeta[d.band].label}
             </span>
-            <span className="tabular-nums text-text-primary font-medium">
+            <span className="tabular-nums text-text-primary font-medium shrink-0">
               {d.count} · {((d.count / total) * 100).toFixed(0)}%
             </span>
           </li>

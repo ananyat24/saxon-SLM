@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "../components/common/Card";
 import { DataSourceTag } from "../components/common/DataSourceTag";
+import { LoadingState } from "../components/common/LoadingState";
 import { CountBarList } from "../components/trainingdata/CountBarList";
 import { sensorFieldMeta } from "../config/taxonomy.config";
 import { isLiveApiMode } from "../api";
@@ -38,7 +39,7 @@ export function TrainingDataPage() {
         </Card>
       )}
 
-      {isLiveApiMode && datasetInfoQuery.isLoading && <p className="text-sm text-text-muted">Loading model metadata…</p>}
+      {isLiveApiMode && datasetInfoQuery.isLoading && <LoadingState compact label="Loading model metadata…" />}
       {isLiveApiMode && datasetInfoQuery.isError && (
         <p className="text-sm text-status-critical">Failed to load dataset info from the backend.</p>
       )}
@@ -48,21 +49,25 @@ export function TrainingDataPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <Card title="Model">
               <dl className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <dt className="text-text-muted">Version</dt>
-                  <dd className="text-text-primary font-medium font-mono-tabular">{datasetInfoQuery.data.model_version}</dd>
+                <div className="flex justify-between gap-3">
+                  <dt className="text-text-muted shrink-0">Version</dt>
+                  <dd className="text-text-primary font-medium font-mono-tabular min-w-0 truncate text-right" title={datasetInfoQuery.data.model_version}>
+                    {datasetInfoQuery.data.model_version}
+                  </dd>
                 </div>
-                <div className="flex justify-between">
-                  <dt className="text-text-muted">Trained</dt>
-                  <dd className="text-text-primary font-medium">
+                <div className="flex justify-between gap-3">
+                  <dt className="text-text-muted shrink-0">Trained</dt>
+                  <dd className="text-text-primary font-medium min-w-0 truncate text-right">
                     {datasetInfoQuery.data.bundle_trained_at
                       ? new Date(datasetInfoQuery.data.bundle_trained_at).toLocaleString()
                       : "Unknown"}
                   </dd>
                 </div>
-                <div className="flex justify-between">
-                  <dt className="text-text-muted">Failure targets</dt>
-                  <dd className="text-text-primary font-medium">{datasetInfoQuery.data.failure_targets.join(", ")}</dd>
+                <div className="flex justify-between gap-3">
+                  <dt className="text-text-muted shrink-0">Failure targets</dt>
+                  <dd className="text-text-primary font-medium min-w-0 text-right break-words">
+                    {datasetInfoQuery.data.failure_targets.join(", ")}
+                  </dd>
                 </div>
               </dl>
             </Card>
@@ -70,9 +75,11 @@ export function TrainingDataPage() {
             <Card title="Raw Input Features" className="md:col-span-1">
               <ul className="text-sm text-text-secondary space-y-1.5">
                 {datasetInfoQuery.data.raw_input_features.map((f) => (
-                  <li key={f} className="flex justify-between">
-                    <span>{featureLabel(f)}</span>
-                    <span className="text-text-muted font-mono-tabular text-xs">{f}</span>
+                  <li key={f} className="flex justify-between gap-3">
+                    <span className="shrink-0">{featureLabel(f)}</span>
+                    <span className="text-text-muted font-mono-tabular text-xs min-w-0 truncate text-right" title={f}>
+                      {f}
+                    </span>
                   </li>
                 ))}
               </ul>

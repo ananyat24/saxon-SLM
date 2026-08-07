@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../api";
 import { Card } from "../components/common/Card";
 import { DataSourceTag } from "../components/common/DataSourceTag";
+import { LoadingState } from "../components/common/LoadingState";
 import { useHasPermission } from "../hooks/useHasPermission";
 
 export function ReportsPage() {
@@ -31,7 +32,7 @@ export function ReportsPage() {
         <p className="text-sm text-text-muted">Generated fleet health and classifier performance reports.</p>
       </div>
 
-      {reportsQuery.isLoading && <p className="text-sm text-text-muted">Loading reports…</p>}
+      {reportsQuery.isLoading && <LoadingState compact label="Loading reports…" />}
       {reportsQuery.isError && <p className="text-sm text-status-critical">Failed to load reports.</p>}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

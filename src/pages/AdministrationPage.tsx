@@ -16,7 +16,7 @@ const CLIENT_CONFIG_LABELS: Record<keyof typeof clientConfig, string> = {
   logoInitials: "Logo Initials",
   supportEmail: "Support Email",
   footerBranding: "Footer Branding",
-  copilotDisclaimer: "Copilot Disclaimer",
+  copilotDisclaimer: "Saxon Advisor Disclaimer",
 };
 
 export function AdministrationPage() {

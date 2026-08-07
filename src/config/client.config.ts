@@ -20,5 +20,5 @@ export const clientConfig: ClientConfig = {
   supportEmail: "support@saxon.ai",
   footerBranding: "Saxon AI Machine Health Copilot · Pilot Build",
   copilotDisclaimer:
-    "Copilot responses are based on classifier output. Not a substitute for engineering judgment.",
+    "Saxon Advisor responses are based on classifier output. Not a substitute for engineering judgment.",
 };

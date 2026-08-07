@@ -6,9 +6,9 @@ export function TopFailureBars({ data }: { data: OverviewSummary["top_failure_co
     <ul className="space-y-2.5">
       {data.map((d) => (
         <li key={d.label}>
-          <div className="flex items-center justify-between text-xs mb-1">
-            <span className="text-text-secondary">{d.label}</span>
-            <span className="tabular-nums font-medium text-text-primary">{d.count}</span>
+          <div className="flex items-center justify-between gap-2 text-xs mb-1">
+            <span className="text-text-secondary min-w-0 truncate" title={d.label}>{d.label}</span>
+            <span className="tabular-nums font-medium text-text-primary shrink-0">{d.count}</span>
           </div>
           <div className="h-2 rounded-full bg-surface-sunken overflow-hidden">
             <div

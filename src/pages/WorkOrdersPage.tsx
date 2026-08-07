@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "../api";
 import { Card } from "../components/common/Card";
 import { DataSourceTag } from "../components/common/DataSourceTag";
+import { LoadingState } from "../components/common/LoadingState";
 import { useHasPermission } from "../hooks/useHasPermission";
 import type { CreateWorkOrderInput, WorkOrder, WorkOrderPriority, WorkOrderStatus } from "../types/contract";
 
@@ -160,7 +161,7 @@ export function WorkOrdersPage() {
       </div>
 
       <Card>
-        {workOrdersQuery.isLoading && <p className="text-sm text-text-muted">Loading work orders…</p>}
+        {workOrdersQuery.isLoading && <LoadingState compact label="Loading work orders…" />}
         {workOrdersQuery.isError && <p className="text-sm text-status-critical">Failed to load work orders.</p>}
         {workOrdersQuery.data && (
           <div className="overflow-x-auto">

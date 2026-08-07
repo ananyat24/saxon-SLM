@@ -10,6 +10,7 @@ import { ModelConfidenceDonut } from "../components/overview/ModelConfidenceDonu
 import { StatusStrip } from "../components/overview/StatusStrip";
 import { Card } from "../components/common/Card";
 import { DataSourceTag } from "../components/common/DataSourceTag";
+import { LoadingState } from "../components/common/LoadingState";
 import { useUiStore } from "../store/uiStore";
 
 export function OverviewPage() {
@@ -26,7 +27,7 @@ export function OverviewPage() {
   }
 
   if (summaryQuery.isLoading || queueQuery.isLoading || statusQuery.isLoading) {
-    return <div className="text-sm text-text-muted">Loading overview…</div>;
+    return <LoadingState label="Fetching the latest fleet data…" />;
   }
   if (summaryQuery.isError || queueQuery.isError || statusQuery.isError || !summaryQuery.data || !queueQuery.data || !statusQuery.data) {
     return <div className="text-sm text-status-critical">Failed to load overview data.</div>;
